@@ -1,47 +1,43 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../config/database");
 
-const User = db.define(
-    "user",
+const Comment = db.define(
+    "comment",
     {
-        userId: {
+        commentId: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
-            field: "user_id",
+            field: "comment_id",
         },
-        username: {
-            type: DataTypes.STRING(50),
+        body: {
+            type: DataTypes.TEXT,
             allowNull: false,
-            unique: true,
         },
-        email: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true,
-            },
-        },
-        passwordHash: {
-            type: DataTypes.STRING(255),
-            allowNull: false,
-            field: "password_hash",
-        },
-        roleId: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "roles",
-                key: "role_id",
+                model: "users",
+                key: "user_id",
             },
-            field: "role_id",
+            field: "user_id",
         },
-        lastLogin: {
+        bookId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "books",
+                key: "book_id",
+            },
+            field: "book_id",
+        },
+        createdAt: {
             type: DataTypes.DATE,
-            allowNull: true,
-            field: "last_login",
+            allowNull: false,
+            defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+            field: "created_at",
         },
         lastUpdate: {
             type: DataTypes.DATE,
@@ -52,20 +48,20 @@ const User = db.define(
     },
     {
         timestamps: false,
-        tableName: "users",
+        tableName: "comments",
         indexes: [
             {
-                name: "idx_user_username",
+                name: "idx_comment_user",
                 using: "BTREE",
-                fields: [{ name: "username" }],
+                fields: [{ name: "user_id" }],
             },
             {
-                name: "idx_user_email",
+                name: "idx_comment_book",
                 using: "BTREE",
-                fields: [{ name: "email" }],
+                fields: [{ name: "book_id" }],
             },
         ],
     }
 );
 
-module.exports = User;
+module.exports = Comment;

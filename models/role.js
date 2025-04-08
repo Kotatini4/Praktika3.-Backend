@@ -1,15 +1,15 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../config/database");
 
-const Category = db.define(
-    "category",
+const Role = db.define(
+    "role",
     {
-        categoryId: {
+        roleId: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
-            field: "category_id",
+            field: "role_id",
         },
         name: {
             type: DataTypes.STRING(50),
@@ -29,10 +29,10 @@ const Category = db.define(
     },
     {
         timestamps: false,
-        tableName: "categories",
+        tableName: "roles",
         indexes: [
             {
-                name: "idx_category_name",
+                name: "idx_role_name",
                 using: "BTREE",
                 fields: [{ name: "name" }],
             },
@@ -40,4 +40,4 @@ const Category = db.define(
     }
 );
 
-module.exports = Category;
+module.exports = Role;
