@@ -21,6 +21,7 @@ exports.createAuthor = async (req, res) => {
         const author = await Author.create({
             firstName: first_name,
             lastName: last_name,
+last_update: new Date(),
         });
 
         res.status(201).json(author);
