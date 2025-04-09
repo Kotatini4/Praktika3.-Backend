@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
-const bookRoutes = require("./routes/bookRoutes");
+const book = require("./routes/bookRoutes");
+const author = require("./routes/authorRoutes");
+
 app.use(express.json());
-app.use("", bookRoutes);
+
+app.use("", book);
+app.use("", author);
 // The port on which the server will run
 const PORT = process.env.PORT || 3000;
 
