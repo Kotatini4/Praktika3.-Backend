@@ -1,4 +1,5 @@
-const { Author } = require("../../models");
+const db = require("../config/database");
+const Author = require("../models/author");
 
 exports.getAllAuthors = async (req, res) => {
     try {
@@ -17,5 +18,3 @@ exports.createAuthor = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
-// Добавьте другие методы (getById, update, delete) по аналогии
