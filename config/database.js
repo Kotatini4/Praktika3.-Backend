@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 require("dotenv").config();
+
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
@@ -7,7 +8,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
-        dialect: "postgres",
+        dialect: process.env.DB_DIALECT,
         schema: process.env.DB_SCHEMA,
         pool: {
             max: 10, // Maksimaalne ühenduste arv
@@ -17,6 +18,7 @@ const sequelize = new Sequelize(
         },
     }
 );
+
 //Connect to database
 sequelize
     .authenticate()
@@ -28,4 +30,5 @@ sequelize
     .catch((err) => {
         console.error("Unable to connect to the database:", err);
     });
+
 module.exports = sequelize;

@@ -1,71 +1,54 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const db = require("../config/database");
+const { DataTypes } = require("sequelize");
+const bcrypt = require("bcryptjs");
 
-const User = db.define(
-    "user",
-    {
-        userId: {
-            autoIncrement: true,
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            field: "user_id",
-        },
-        username: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-            unique: true,
-        },
-        email: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true,
+module.exports = (sequelize) => {
+    const User = sequelize.define(
+        "User",
+        {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true,
+                validate: {
+                    isEmail: true,
+                },
+            },
+            username: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true,
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            role_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
             },
         },
-        passwordHash: {
-            type: DataTypes.STRING(255),
-            allowNull: false,
-            field: "password_hash",
-        },
-        roleId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: "roles",
-                key: "role_id",
+        {
+            timestamps: false,
+            tableName: "users",
+            hooks: {
+                beforeCreate: async (user) => {
+                    if (user.password) {
+                        const salt = await bcrypt.genSalt(10);
+                        user.password = await bcrypt.hash(user.password, salt);
+                    }
+                },
             },
-            field: "role_id",
-        },
-        lastLogin: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            field: "last_login",
-        },
-        lastUpdate: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "last_update",
-        },
-    },
-    {
-        timestamps: false,
-        tableName: "users",
-        indexes: [
-            {
-                name: "idx_user_username",
-                using: "BTREE",
-                fields: [{ name: "username" }],
-            },
-            {
-                name: "idx_user_email",
-                using: "BTREE",
-                fields: [{ name: "email" }],
-            },
-        ],
-    }
-);
+        }
+    );
 
-module.exports = User;
+    User.prototype.validPassword = async function (password) {
+        return await bcrypt.compare(password, this.password);
+    };
+
+    return User;
+};

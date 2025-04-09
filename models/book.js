@@ -51,13 +51,13 @@ const Book = db.define(
     },
     {
         timestamps: false,
-        schema: "books", // только если действительно нужна схема
+        schema: "books",
         tableName: "books",
         indexes: [
             {
                 name: "idx_book_title",
                 using: "BTREE",
-                fields: [{ name: "title" }], // лучше ссылаться на поле модели, а не таблицы
+                fields: [{ name: "title" }],
             },
         ],
     }

@@ -1,90 +1,117 @@
-// models/index.js
-const { Sequelize } = require("sequelize");
-const config = require("../config/config.js");
+const db = require("../config/database");
 
-const env = process.env.NODE_ENV || "development";
-const dbConfig = config[env];
+// Импорт моделей
+const Author = require("./author")(db);
+const Role = require("./role")(db);
+const User = require("./user")(db);
+const Book = require("./book")(db);
+const Category = require("./category")(db);
+const Comment = require("./comment")(db);
 
-const sequelize = new Sequelize(
-    dbConfig.database,
-    dbConfig.username,
-    dbConfig.password,
-    {
-        host: dbConfig.host,
-        port: dbConfig.port,
-        dialect: dbConfig.dialect,
-        schema: dbConfig.schema,
-        dialectOptions: dbConfig.dialectOptions,
-        logging: dbConfig.logging,
-    }
-);
+// Установка ассоциаций
+User.belongsTo(Role, { foreignKey: "role_id" });
+Role.hasMany(User, { foreignKey: "role_id" });
 
-const Author = require("./author")(sequelize, Sequelize.DataTypes);
-
-module.exports = {
-    sequelize,
-    Sequelize,
+// Экспорт моделей
+const models = {
     Author,
+    Role,
+    User,
+    Book,
+    Category,
+    Comment,
 };
 
-// После определения всех моделей (Author, Book, Category, User, Comment, Roli)
+module.exports = models;
 
-// Author-Book many-to-many через таблицу book_author
-Author.belongsToMany(Book, {
-    through: "book_author",
-    foreignKey: "author_id",
-    otherKey: "book_id",
-    onDelete: "CASCADE",
-});
+// // 1. Author ↔ Book (many-to-many через таблицу book_author)
+// Author.belongsToMany(Book, {
+//     through: "book_author",
+//     foreignKey: "author_id",
+//     otherKey: "book_id",
+//     as: "books",
+//     onDelete: "CASCADE",
+//     onUpdate: "CASCADE",
+//     hooks: true,
+// });
 
-Book.belongsToMany(Author, {
-    through: "book_author",
-    foreignKey: "book_id",
-    otherKey: "author_id",
-    onDelete: "CASCADE",
-});
+// Book.belongsToMany(Author, {
+//     through: "book_author",
+//     foreignKey: "book_id",
+//     otherKey: "author_id",
+//     as: "authors",
+//     onDelete: "CASCADE",
+//     onUpdate: "CASCADE",
+// });
 
-// Book-Category one-to-many
-Book.belongsTo(Category, {
-    as: "category",
-    foreignKey: "category_id",
-});
+// // 2. Category ↔ Book (one-to-many)
+// Category.hasMany(Book, {
+//     foreignKey: {
+//         name: "category_id",
+//         allowNull: false,
+//     },
+//     as: "books",
+//     onDelete: "RESTRICT", // Нельзя удалить категорию с книгами
+//     onUpdate: "CASCADE",
+// });
 
-Category.hasMany(Book, {
-    foreignKey: "category_id",
-    onDelete: "CASCADE",
-});
+// Book.belongsTo(Category, {
+//     foreignKey: "category_id",
+//     as: "category",
+//     onDelete: "RESTRICT",
+//     onUpdate: "CASCADE",
+// });
 
-// User-Comment one-to-many
-User.hasMany(Comment, {
-    foreignKey: "user_id",
-    onDelete: "CASCADE",
-});
+// // 3. Role ↔ User (one-to-many)
+// Role.hasMany(User, {
+//     foreignKey: {
+//         name: "role_id",
+//         allowNull: false,
+//     },
+//     as: "users",
+//     onDelete: "RESTRICT", // Нельзя удалить роль, если есть пользователи
+//     onUpdate: "CASCADE",
+// });
 
-Comment.belongsTo(User, {
-    as: "user",
-    foreignKey: "user_id",
-});
+// User.belongsTo(Role, {
+//     foreignKey: "role_id",
+//     as: "role",
+//     onDelete: "RESTRICT",
+//     onUpdate: "CASCADE",
+// });
 
-// Book-Comment one-to-many
-Book.hasMany(Comment, {
-    as: "comments",
-    foreignKey: "book_id",
-    onDelete: "CASCADE",
-});
+// // 4. User ↔ Comment (one-to-many)
+// User.hasMany(Comment, {
+//     foreignKey: "user_id",
+//     as: "comments",
+//     onDelete: "SET NULL", // Комментарии остаются, но user_id = NULL
+//     onUpdate: "CASCADE",
+// });
 
-Comment.belongsTo(Book, {
-    as: "book",
-    foreignKey: "book_id",
-});
+// Comment.belongsTo(User, {
+//     foreignKey: "user_id",
+//     as: "user",
+//     onDelete: "SET NULL",
+//     onUpdate: "CASCADE",
+// });
 
-// Role-User one-to-many
-Role.hasMany(User, {
-    foreignKey: "role_id",
-    onDelete: "CASCADE",
-});
+// // 5. Book ↔ Comment (one-to-many)
+// Book.hasMany(Comment, {
+//     foreignKey: "book_id",
+//     as: "comments",
+//     onDelete: "CASCADE", // Удаляем комментарии при удалении книги
+//     onUpdate: "CASCADE",
+// });
 
-User.belongsTo(Role, {
-    as: "role",
-    foreignKey: "role_id",
-});
+// Comment.belongsTo(Book, {
+//     foreignKey: "book_id",
+//     as: "book",
+//     onDelete: "CASCADE",
+//     onUpdate: "CASCADE",
+// });
+
+// const models = {
+//     Author: Author,
+// };
+
+// module.exports = models;
