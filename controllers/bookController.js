@@ -1,39 +1,52 @@
-// controllers/bookController.js
+const { Book, Author, Category } = require("../models");
 
-const { Book, Author, Category } = require("../models"); // Импортируем модели
-
-// Пример обработчика для получения всех книг
-exports.getAllBooks = async (req, res) => {
-    try {
-        const books = await Book.findAll({
-            include: [
-                { model: Author, as: "authors" },
-                { model: Category, as: "category" },
-            ],
-        });
-        res.status(200).json(books);
-    } catch (error) {
-        console.error("Ошибка при получении книг:", error);
-        res.status(500).json({ message: "Не удалось получить список книг" });
-    }
-};
-
-// Пример обработчика для создания новой книги
 exports.createBook = async (req, res) => {
     try {
-        const { book_title, book_description, publication_year, category_id } =
-            req.body;
-        const newBook = await Book.create({
+        const {
             book_title,
             book_description,
             publication_year,
             category_id,
+            author_ids,
+        } = req.body;
+
+        const book = await Book.create({
+            book_title,
+            book_description,
+            publication_year,
+            category_id,
+            last_update: new Date(),
         });
-        res.status(201).json(newBook);
+
+        if (author_ids && author_ids.length) {
+            await book.setAuthors(author_ids);
+        }
+
+        const bookWithDetails = await Book.findByPk(book.book_id, {
+            include: [{ model: Author }, { model: Category }],
+        });
+
+        res.status(201).json(bookWithDetails);
     } catch (error) {
-        console.error("Ошибка при создании книги:", error);
-        res.status(400).json({ message: error.message });
+        console.error("Error creating book:", error);
+        res.status(500).json({
+            message: "Error creating book",
+            error: error.message,
+        });
     }
 };
 
-// Добавьте другие обработчики для книг (получение по ID, обновление, удаление и т.д.)
+exports.getAllBooks = async (req, res) => {
+    try {
+        const books = await Book.findAll({
+            include: [{ model: Author }, { model: Category }],
+        });
+        res.json(books);
+    } catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).json({
+            message: "Error fetching books",
+            error: error.message,
+        });
+    }
+};

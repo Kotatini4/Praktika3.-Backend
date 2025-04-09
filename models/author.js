@@ -11,12 +11,12 @@ const Author = db.define(
             field: "author_id",
         },
         firstName: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(100),
             allowNull: false,
             field: "first_name",
         },
         lastName: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(100),
             allowNull: false,
             field: "last_name",
         },

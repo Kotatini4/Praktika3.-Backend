@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const authorController = require("../controllers/authorController");
 
-router.get("/authors", authorController.getAllAuthors);
-router.post("/authors", authorController.createAuthor);
-// Добавьте другие маршруты
+// Создание нового автора
+router.post("/", authorController.createAuthor);
+
+// Получение всех авторов
+router.get("/", authorController.getAllAuthors);
 
 module.exports = router;

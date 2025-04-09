@@ -1,19 +1,21 @@
 const express = require("express");
-
 const app = express();
-const bookRoutes = require("./routes/bookRoutes");
-const authorRoutes = require("./routes/authorRoutes");
+const db = require("./config/database");
 
+// Middleware
 app.use(express.json());
 
-app.use("", bookRoutes);
-app.use("", authorRoutes);
+// Подключение маршрутов
+const authorRoutes = require("./routes/authorRoutes");
+const bookRoutes = require("./routes/bookRoutes");
 
-// The port on which the server will run
+app.use("/api/authors", authorRoutes);
+app.use("/api/books", bookRoutes);
 
-const PORT = process.env.PORT || 3000;
+// Проверка подключения к БД
+db.authenticate()
+    .then(() => console.log("Database connected..."))
+    .catch((err) => console.log("Error: " + err));
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000; // Убедитесь, что порт совпадает (3000)
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
