@@ -1,12 +1,13 @@
 const express = require("express");
+
 const app = express();
-const book = require("./routes/bookRoutes");
-const author = require("./routes/authorRoutes");
+const bookRoutes = require("./routes/bookRoutes");
+const authorRoutes = require("./routes/authorRoutes");
 
 app.use(express.json());
 
-app.use("", book);
-app.use("", author);
+app.use("", bookRoutes);
+app.use("", authorRoutes);
 
 // The port on which the server will run
 

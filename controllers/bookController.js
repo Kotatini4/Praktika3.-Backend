@@ -21,11 +21,18 @@ exports.getAllBooks = async (req, res) => {
 // Пример обработчика для создания новой книги
 exports.createBook = async (req, res) => {
     try {
-        const newBook = await Book.create(req.body);
+        const { book_title, book_description, publication_year, category_id } =
+            req.body;
+        const newBook = await Book.create({
+            book_title,
+            book_description,
+            publication_year,
+            category_id,
+        });
         res.status(201).json(newBook);
     } catch (error) {
         console.error("Ошибка при создании книги:", error);
-        res.status(500).json({ message: "Не удалось создать книгу" });
+        res.status(400).json({ message: error.message });
     }
 };
 
