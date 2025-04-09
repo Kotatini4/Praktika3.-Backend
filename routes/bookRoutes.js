@@ -1,11 +1,20 @@
-// routes/bookRoutes.js
-
 const express = require("express");
 const router = express.Router();
 const bookController = require("../controllers/bookController");
 
-// Определяем маршруты для книг
-router.get("/books", bookController.getAllBooks);
-router.post("/books", bookController.createBook);
+// Получить все книги
+router.get("/", bookController.getAllBooks);
+
+// Получить книгу по ID
+router.get("/:id", bookController.getBookById);
+
+// Создать новую книгу
+router.post("/", bookController.createBook);
+
+// Обновить информацию о книге
+router.put("/:id", bookController.updateBook);
+
+// Удалить книгу
+router.delete("/:id", bookController.deleteBook);
 
 module.exports = router;

@@ -2,15 +2,16 @@ const express = require("express");
 const app = express();
 const db = require("./config/database");
 
-// Middleware
-app.use(express.json());
-
 // Подключение маршрутов
 const authorRoutes = require("./routes/authorRoutes");
 const bookRoutes = require("./routes/bookRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+
+app.use(express.json());
 
 app.use("/api/authors", authorRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/category", categoryRoutes);
 
 // Проверка подключения к БД
 db.authenticate()
