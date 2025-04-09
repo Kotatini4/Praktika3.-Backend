@@ -1,55 +1,33 @@
-const db = require("../config/database");
 const Author = require("../models/author");
 
 exports.createAuthor = async (req, res) => {
     const { first_name, last_name } = req.body;
 
-    // Валидация входных данных
     if (!first_name || !last_name) {
-        return res.status(400).json({
-            success: false,
-            message: "Имя и фамилия автора обязательны для заполнения",
-        });
+        return res
+            .status(400)
+            .json({ message: "Author name and lastname is required" });
     }
-
     try {
-        // Проверка на существующего автора
-        const existingAuthor = await Author.findOne({
+        const existing = await Author.findOne({
             where: {
-                first_name: first_name,
-                last_name: last_name,
+                firstName: first_name,
+                lastName: last_name,
             },
         });
-
-        if (existingAuthor) {
-            return res.status(409).json({
-                success: false,
-                message: "Автор с таким именем и фамилией уже существует",
-                author: existingAuthor,
-            });
+        if (existing) {
+            return res.status(409).json({ message: "Author already exists" });
         }
-
-        // Создание нового автора
-        const newAuthor = await Author.create({
-            first_name: first_name,
-            last_name: last_name,
-            last_update: new Date(),
+        const author = await Author.create({
+            firstName: first_name,
+            lastName: last_name,
         });
 
-        return res.status(201).json({
-            success: true,
-            message: "Автор успешно создан",
-            author: newAuthor,
-        });
+        res.status(201).json(author);
     } catch (error) {
-        console.error("Ошибка при создании автора:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Произошла ошибка при создании автора",
-            error:
-                process.env.NODE_ENV === "development"
-                    ? error.message
-                    : undefined,
+        console.error(error);
+        res.status(500).json({
+            message: "An error occurred while creating the books author",
         });
     }
 };
