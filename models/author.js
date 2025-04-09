@@ -1,33 +1,44 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
+const db = require("../config/database");
 
-module.exports = (sequelize) => {
-    const Author = sequelize.define(
-        "Author",
-        {
-            author_id: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            first_name: {
-                type: DataTypes.STRING(50),
-                allowNull: false,
-            },
-            last_name: {
-                type: DataTypes.STRING(50),
-                allowNull: false,
-            },
-            last_update: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: DataTypes.NOW,
-            },
+const Author = db.define(
+    "author",
+    {
+        authorId: {
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            field: "author_id",
         },
-        {
-            timestamps: false,
-            tableName: "authors",
-        }
-    );
+        firstName: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            field: "first_name",
+        },
+        lastName: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            field: "last_name",
+        },
+        lastUpdate: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+            field: "last_update",
+        },
+    },
+    {
+        timestamps: false,
+        tableName: "authors",
+        indexes: [
+            {
+                name: "idx_author_last_name",
+                using: "BTREE",
+                fields: [{ name: "last_name" }],
+            },
+        ],
+    }
+);
 
-    return Author;
-};
+module.exports = Author;

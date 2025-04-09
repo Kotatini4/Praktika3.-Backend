@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const db = require("../config/database");
 
 const Category = db.define(
@@ -14,17 +14,7 @@ const Category = db.define(
         name: {
             type: DataTypes.STRING(50),
             allowNull: false,
-            unique: true,
-        },
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-        },
-        lastUpdate: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-            field: "last_update",
+            field: "name",
         },
     },
     {
@@ -39,5 +29,4 @@ const Category = db.define(
         ],
     }
 );
-
 module.exports = Category;
