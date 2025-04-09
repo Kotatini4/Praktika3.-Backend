@@ -2,19 +2,19 @@ const express = require("express");
 const router = express.Router();
 const categoryController = require("../controllers/categoryController");
 
-// Создать категорию
-router.post("/", categoryController.createCategory);
+// Создать новую категорию
+router.post("/categories", categoryController.createCategory); // <--- Вот этот маршрут важен
 
 // Получить все категории
-router.get("/", categoryController.getAllCategories);
+router.get("/categories", categoryController.getAllCategories);
 
 // Получить категорию по ID
-router.get("/:id", categoryController.getCategoryById);
+router.get("/categories/:id", categoryController.getCategoryById);
 
-// Обновить категорию
-router.put("/:id", categoryController.updateCategory);
+// Обновить информацию о категории
+router.put("/categories/:id", categoryController.updateCategory);
 
 // Удалить категорию
-router.delete("/:id", categoryController.deleteCategory);
+router.delete("/categories/:id", categoryController.deleteCategory);
 
 module.exports = router;

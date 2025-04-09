@@ -12,6 +12,14 @@ exports.createCategory = async (req, res) => {
             });
         }
 
+        const existing = await Category.findOne({ where: { name } });
+        if (existing) {
+            return res.status(409).json({
+                success: false,
+                message: "Категория с таким названием уже существует",
+            });
+        }
+
         const category = await Category.create({ name });
 
         res.status(201).json({

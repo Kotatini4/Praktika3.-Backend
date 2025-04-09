@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use("/api/authors", authorRoutes);
 app.use("/api/books", bookRoutes);
-app.use("/api/category", categoryRoutes);
+app.use("/api/", categoryRoutes);
 
 // Проверка подключения к БД
 db.authenticate()
