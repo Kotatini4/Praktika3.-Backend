@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../config/database");
-
 const Author = db.define(
     "author",
     {
@@ -40,5 +39,4 @@ const Author = db.define(
         ],
     }
 );
-
 module.exports = Author;
