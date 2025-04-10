@@ -165,7 +165,7 @@
         "tags": [
           "Books"
         ],
-        "description": "Создать книгу",
+        "description": "Создать книгу (только админ)",
         "parameters": [
           {
             "name": "authorization",
@@ -258,13 +258,18 @@
         "tags": [
           "Books"
         ],
-        "description": "Обновить книгу по ID",
+        "description": "Обновить книгу по ID (только админ)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "body",
@@ -309,6 +314,12 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Книга не найдена"
           },
@@ -321,18 +332,29 @@
         "tags": [
           "Books"
         ],
-        "description": "Удалить книгу",
+        "description": "Удалить книгу (только админ)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Книга удалена"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Книга не найдена"
@@ -594,13 +616,18 @@
         "tags": [
           "Comments"
         ],
-        "description": "Обновить комментарий",
+        "description": "Обновить комментарий (только после регистрации)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "body",
@@ -628,6 +655,12 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           }
@@ -637,18 +670,29 @@
         "tags": [
           "Comments"
         ],
-        "description": "Удалить комментарий",
+        "description": "Удалить комментарий (только для админа)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "204": {
             "description": "Комментарий удален"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"

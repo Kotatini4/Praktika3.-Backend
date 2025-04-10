@@ -63,8 +63,10 @@ router.get(
 
 router.put(
     "/comments/:id",
+    authJwt.verifyToken,
+    authJwt.isUserOrAdmin,
     /* #swagger.tags = ['Comments']
-     #swagger.description = 'Обновить комментарий'
+     #swagger.description = 'Обновить комментарий (только после регистрации)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,
@@ -87,8 +89,10 @@ router.put(
 
 router.delete(
     "/comments/:id",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Comments']
-     #swagger.description = 'Удалить комментарий'
+     #swagger.description = 'Удалить комментарий (только для админа)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,

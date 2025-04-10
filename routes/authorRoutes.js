@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const authorController = require("../controllers/authorController");
+const authJwt = require("../middleware/authjwt");
 
 router.post(
     "/authors",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Authors']
-     #swagger.description = 'Создать нового автора'
+     #swagger.description = 'Создать нового автора (только админ)'
      #swagger.parameters['body'] = {
          in: 'body',
          required: true,
@@ -37,8 +40,10 @@ router.get(
 
 router.put(
     "/authors/:id",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Authors']
-     #swagger.description = 'Обновить автора по ID'
+     #swagger.description = 'Обновить автора по ID (только админ)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,

@@ -38,7 +38,7 @@ router.post(
     authJwt.verifyToken,
     authJwt.isAdmin,
     /* #swagger.tags = ['Books']
-       #swagger.description = 'Создать книгу'
+       #swagger.description = 'Создать книгу (только админ)'
        #swagger.parameters['body'] = {
            in: 'body',
            required: true,
@@ -62,8 +62,10 @@ router.post(
 
 router.put(
     "/books/:id",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Books']
-     #swagger.description = 'Обновить книгу по ID'
+     #swagger.description = 'Обновить книгу по ID (только админ)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,
@@ -92,8 +94,10 @@ router.put(
 
 router.delete(
     "/books/:id",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Books']
-     #swagger.description = 'Удалить книгу'
+     #swagger.description = 'Удалить книгу (только админ)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,
