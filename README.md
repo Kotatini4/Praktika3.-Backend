@@ -55,6 +55,13 @@
 ```bash
 npm install           # Установка зависимостей
 node config/create_table.js   # Создание таблиц
-node config/seed.js           # Заполнение тестовыми данными
+node seed.js           # Заполнение тестовыми данными
 node index.js         # Запуск сервера
+```
+
+## Для регистрации под админов:
+
+```bash
+    username: "admin",
+    password: "admin123"
 ```

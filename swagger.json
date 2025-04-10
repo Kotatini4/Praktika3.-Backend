@@ -811,17 +811,14 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "username": {
-                  "type": "string",
-                  "example": "user1"
+                  "example": "any"
                 },
                 "password": {
-                  "type": "string",
-                  "example": "123456"
+                  "example": "any"
                 }
               }
             }
