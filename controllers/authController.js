@@ -99,20 +99,24 @@ exports.getAllUsers = async (req, res) => {
         });
     }
 };
-exports.getAllUsers = async (req, res) => {
+
+exports.updateUserRole = async (req, res) => {
+    const { userId, roleName } = req.body;
     try {
-        const users = await User.findAll({
-            include: {
-                model: Role,
-                as: "role",
-                attributes: ["name"],
-            },
-            attributes: { exclude: ["password"] },
-        });
-        res.status(200).json(users);
+        const user = await User.findByPk(userId);
+        const role = await Role.findOne({ where: { name: roleName } });
+
+        if (!user || !role) {
+            return res
+                .status(404)
+                .json({ message: "Пользователь или роль не найдены" });
+        }
+
+        await user.setRole(role);
+        res.status(200).json({ message: `Роль обновлена на ${role.name}` });
     } catch (error) {
         res.status(500).json({
-            message: "Ошибка при получении пользователей",
+            message: "Ошибка обновления роли",
             error: error.message,
         });
     }

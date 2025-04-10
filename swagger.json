@@ -27,11 +27,23 @@
     {
       "name": "Auth",
       "description": "Управление авторизацией"
+    },
+    {
+      "name": "Users",
+      "description": "Управление пользователями"
     }
   ],
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Введите токен в формате: Bearer <ваш_токен>"
+    }
+  },
   "paths": {
     "/authors": {
       "post": {
@@ -815,6 +827,61 @@
           }
         }
       }
+    },
+    "/users/role": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Смена роли пользователя (только для админа)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "number",
+                  "example": 2
+                },
+                "roleName": {
+                  "type": "string",
+                  "example": "admin"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Роль обновлена"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Пользователь или роль не найдены"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

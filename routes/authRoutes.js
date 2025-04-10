@@ -91,4 +91,28 @@ router.get(
     authController.getAllUsers
 );
 
+router.put(
+    "/users/role",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
+    /* #swagger.tags = ['Users']
+       #swagger.description = 'Смена роли пользователя (только для админа)'
+       #swagger.parameters['body'] = {
+         in: 'body',
+         required: true,
+         schema: {
+           userId: 2,
+           roleName: "admin"
+         }
+       }
+       #swagger.responses[200] = {
+         description: 'Роль обновлена'
+       }
+       #swagger.responses[404] = {
+         description: 'Пользователь или роль не найдены'
+       }
+     */
+    authController.updateUserRole
+);
+
 module.exports = router;

@@ -22,7 +22,17 @@ const doc = {
         { name: "Categories", description: "Категории книг" },
         { name: "Comments", description: "Комментарии к книгам" },
         { name: "Auth", description: "Управление авторизацией" },
+        { name: "Users", description: "Управление пользователями" },
     ],
+    securityDefinitions: {
+        bearerAuth: {
+            type: "apiKey",
+            in: "header",
+            name: "Authorization",
+            description: "Введите токен в формате: Bearer <ваш_токен>",
+        },
+    },
+    security: [{ bearerAuth: [] }],
 };
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
