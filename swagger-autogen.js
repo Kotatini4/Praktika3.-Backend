@@ -6,6 +6,7 @@ const endpointsFiles = [
     "./routes/bookRoutes.js",
     "./routes/categoryRoutes.js",
     "./routes/commentRoutes.js",
+    "./routes/authRoutes.js",
 ];
 
 const doc = {
@@ -20,6 +21,7 @@ const doc = {
         { name: "Books", description: "Управление книгами" },
         { name: "Categories", description: "Категории книг" },
         { name: "Comments", description: "Комментарии к книгам" },
+        { name: "Auth", description: "Управление авторизацией" },
     ],
 };
 

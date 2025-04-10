@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const bookController = require("../controllers/bookController");
+const authJwt = require("../middleware/authjwt");
 
 router.get(
     "/books",
     /* #swagger.tags = ['Books']
-     #swagger.description = 'Получить список книг'
-     #swagger.responses[200] = {
-         description: 'Список книг'
-     }
+    #swagger.description = 'Получить список книг'
+    #swagger.responses[200] = {
+        description: 'Список книг'
+    }
   */
     bookController.getAllBooks
 );
@@ -34,26 +35,28 @@ router.get(
 
 router.post(
     "/books",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Books']
-     #swagger.description = 'Создать книгу'
-     #swagger.parameters['body'] = {
-         in: 'body',
-         required: true,
-         schema: {
-             book_title: 'Название книги',
-             book_description: 'Описание книги',
-             publication_year: 2024,
-             category_id: 1,
-             author_ids: [1, 2]
-         }
-     }
-     #swagger.responses[201] = {
-         description: 'Книга создана'
-     }
-     #swagger.responses[400] = {
-         description: 'Ошибка ввода'
-     }
-  */
+       #swagger.description = 'Создать книгу'
+       #swagger.parameters['body'] = {
+           in: 'body',
+           required: true,
+           schema: {
+               book_title: 'Название книги',
+               book_description: 'Описание книги',
+               publication_year: 2024,
+               category_id: 1,
+               author_ids: [1, 2]
+           }
+       }
+       #swagger.responses[201] = {
+           description: 'Книга создана'
+       }
+       #swagger.responses[400] = {
+           description: 'Ошибка ввода'
+       }
+    */
     bookController.createBook
 );
 

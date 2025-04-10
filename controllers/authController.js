@@ -1,4 +1,3 @@
-// controllers/authController.js
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
@@ -79,5 +78,42 @@ exports.signin = async (req, res) => {
         });
     } catch (error) {
         res.status(500).send({ message: error.message });
+    }
+};
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            include: {
+                model: Role,
+                as: "role",
+                attributes: ["name"],
+            },
+            attributes: { exclude: ["password"] },
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({
+            message: "Ошибка при получении пользователей",
+            error: error.message,
+        });
+    }
+};
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            include: {
+                model: Role,
+                as: "role",
+                attributes: ["name"],
+            },
+            attributes: { exclude: ["password"] },
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({
+            message: "Ошибка при получении пользователей",
+            error: error.message,
+        });
     }
 };
