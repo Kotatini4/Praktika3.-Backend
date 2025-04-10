@@ -50,6 +50,11 @@ router.post(
            schema: {
                username: 'user1',
                password: '123456'
+
+               or
+
+                username: 'admin',
+                password: 'admin123'
            }
        }
        #swagger.responses[200] = {
