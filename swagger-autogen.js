@@ -11,7 +11,7 @@ const endpointsFiles = [
 const doc = {
     info: {
         title: "Library API Documentation",
-        description: "Автогенерируемая документация для backend-практики",
+        description: "Документация для системы книг, авторов и комментариев",
     },
     host: "localhost:3000",
     schemes: ["http"],

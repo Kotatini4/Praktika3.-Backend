@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const bookController = require("../controllers/bookController");
-// const authJwt = require("../middleware/authJwt");
 
 /**
  * @swagger
@@ -20,7 +19,7 @@ const bookController = require("../controllers/bookController");
  *       200:
  *         description: Список книг
  */
-router.get("/", bookController.getAllBooks);
+router.get("/api/books", bookController.getAllBooks);
 
 /**
  * @swagger
@@ -40,7 +39,7 @@ router.get("/", bookController.getAllBooks);
  *       404:
  *         description: Книга не найдена
  */
-router.get("/:id", bookController.getBookById);
+router.get("/api/books/:id", bookController.getBookById);
 
 /**
  * @swagger
@@ -73,7 +72,7 @@ router.get("/:id", bookController.getBookById);
  *       400:
  *         description: Ошибка ввода
  */
-router.post("/", bookController.createBook);
+router.post("/api/books", bookController.createBook);
 
 /**
  * @swagger
@@ -93,13 +92,26 @@ router.post("/", bookController.createBook);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               book_title:
+ *                 type: string
+ *               book_description:
+ *                 type: string
+ *               publication_year:
+ *                 type: integer
+ *               category_id:
+ *                 type: integer
+ *               author_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
  *     responses:
  *       200:
  *         description: Книга обновлена
  *       404:
  *         description: Книга не найдена
  */
-router.put("/:id", bookController.updateBook);
+router.put("/api/books/:id", bookController.updateBook);
 
 /**
  * @swagger
@@ -119,6 +131,6 @@ router.put("/:id", bookController.updateBook);
  *       404:
  *         description: Книга не найдена
  */
-router.delete("/:id", bookController.deleteBook);
+router.delete("/api/books/:id", bookController.deleteBook);
 
 module.exports = router;

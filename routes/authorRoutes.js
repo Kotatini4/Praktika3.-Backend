@@ -32,19 +32,19 @@ const authorController = require("../controllers/authorController");
  *       400:
  *         description: Неверные данные
  */
-router.post("/", authorController.createAuthor);
+router.post("/api/authors", authorController.createAuthor);
 
 /**
  * @swagger
  * /api/authors:
  *   get:
- *     summary: Получить список всех авторов
+ *     summary: Получить всех авторов
  *     tags: [Authors]
  *     responses:
  *       200:
  *         description: Список авторов
  */
-router.get("/", authorController.getAllAuthors);
+router.get("/api/authors", authorController.getAllAuthors);
 
 /**
  * @swagger
@@ -55,9 +55,9 @@ router.get("/", authorController.getAllAuthors);
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: integer
+ *         required: true
  *     requestBody:
  *       required: true
  *       content:
@@ -75,6 +75,6 @@ router.get("/", authorController.getAllAuthors);
  *       404:
  *         description: Автор не найден
  */
-router.put("/:id", authorController.updateAuthor);
+router.put("/api/authors/:id", authorController.updateAuthor);
 
 module.exports = router;
