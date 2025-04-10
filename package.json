@@ -8,7 +8,9 @@
         "jsonwebtoken": "^9.0.2",
         "pg": "^8.14.1",
         "sequelize": "^6.37.7",
-        "sequelize-cli": "^6.6.2"
+        "sequelize-cli": "^6.6.2",
+        "swagger-autogen": "^2.23.7",
+        "swagger-ui-express": "^5.0.1"
     },
     "name": "praktika3.-backend",
     "version": "1.0.0",
