@@ -59,9 +59,9 @@ node seed.js           # Заполнение тестовыми данными
 node index.js         # Запуск сервера
 ```
 
-## Для регистрации под админов:
+## Для регистрации под админом:
 
 ```bash
-    username: "admin",
+    username: "admin"
     password: "admin123"
 ```
