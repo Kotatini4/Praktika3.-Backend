@@ -13,11 +13,11 @@ const authRoutes = require("./routes/authRoutes");
 app.use(express.json());
 swagger(app);
 
-app.use("/api/authors", authorRoutes);
-app.use("/api/books", bookRoutes);
-app.use("/api/", categoryRoutes);
-app.use("/api/", commentRoutes);
-app.use("/api/", authRoutes);
+app.use("/", authorRoutes);
+app.use("/", bookRoutes);
+app.use("/", categoryRoutes);
+app.use("/", commentRoutes);
+app.use("/", authRoutes);
 
 // Проверка подключения к БД
 db.authenticate()
