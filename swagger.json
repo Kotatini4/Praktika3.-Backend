@@ -50,8 +50,13 @@
         "tags": [
           "Authors"
         ],
-        "description": "Создать нового автора",
+        "description": "Создать нового автора (только админ)",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -77,6 +82,12 @@
           },
           "400": {
             "description": "Неверные данные"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "409": {
             "description": "Conflict"
@@ -106,13 +117,18 @@
         "tags": [
           "Authors"
         ],
-        "description": "Обновить автора по ID",
+        "description": "Обновить автора по ID (только админ)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "body",
@@ -136,6 +152,12 @@
         "responses": {
           "200": {
             "description": "Автор обновлён"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Автор не найден"
@@ -370,8 +392,13 @@
         "tags": [
           "Categories"
         ],
-        "description": "Создать категорию",
+        "description": "Создать категорию (только админ)",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -393,6 +420,12 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "409": {
             "description": "Категория уже существует"
@@ -447,13 +480,18 @@
         "tags": [
           "Categories"
         ],
-        "description": "Обновить категорию",
+        "description": "Обновить категорию (только админ)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "body",
@@ -477,6 +515,12 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -489,18 +533,29 @@
         "tags": [
           "Categories"
         ],
-        "description": "Удалить категорию",
+        "description": "Удалить категорию (только админ)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "204": {
             "description": "Успешное удаление"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"

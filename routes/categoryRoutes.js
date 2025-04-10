@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const categoryController = require("../controllers/categoryController");
+const authJwt = require("../middleware/authjwt");
 
 router.post(
     "/categories",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Categories']
-     #swagger.description = 'Создать категорию'
+     #swagger.description = 'Создать категорию (только админ)'
      #swagger.parameters['body'] = {
          in: 'body',
          required: true,
@@ -55,8 +58,10 @@ router.get(
 
 router.put(
     "/categories/:id",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Categories']
-     #swagger.description = 'Обновить категорию'
+     #swagger.description = 'Обновить категорию (только админ)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,
@@ -78,8 +83,10 @@ router.put(
 
 router.delete(
     "/categories/:id",
+    authJwt.verifyToken,
+    authJwt.isAdmin,
     /* #swagger.tags = ['Categories']
-     #swagger.description = 'Удалить категорию'
+     #swagger.description = 'Удалить категорию (только админ)'
      #swagger.parameters['id'] = {
          in: 'path',
          required: true,
