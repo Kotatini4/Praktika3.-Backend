@@ -1,19 +1,23 @@
 const express = require("express");
 const app = express();
 const db = require("./config/database");
+const swagger = require("./swagger");
 
 // Подключение маршрутов
 const authorRoutes = require("./routes/authorRoutes");
 const bookRoutes = require("./routes/bookRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 app.use(express.json());
+swagger(app);
 
 app.use("/api/authors", authorRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/", categoryRoutes);
 app.use("/api/", commentRoutes);
+app.use("/api/", authRoutes);
 
 // Проверка подключения к БД
 db.authenticate()

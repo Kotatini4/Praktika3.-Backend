@@ -1,16 +1,26 @@
 const swaggerAutogen = require("swagger-autogen")();
 
 const outputFile = "./swagger.json";
-const endpointsFiles = ["./routes/*.js"];
+const endpointsFiles = [
+    "./routes/authorRoutes.js",
+    "./routes/bookRoutes.js",
+    "./routes/categoryRoutes.js",
+    "./routes/commentRoutes.js",
+];
 
-const config = {
+const doc = {
     info: {
-        title: "Blog API Documentation",
-        description: "",
+        title: "Library API Documentation",
+        description: "Автогенерируемая документация для backend-практики",
     },
-    tags: [],
-    host: "localhost:3000/api",
-    schemes: ["http", "https"],
+    host: "localhost:3000",
+    schemes: ["http"],
+    tags: [
+        { name: "Authors", description: "Управление авторами" },
+        { name: "Books", description: "Управление книгами" },
+        { name: "Categories", description: "Категории книг" },
+        { name: "Comments", description: "Комментарии к книгам" },
+    ],
 };
 
-swaggerAutogen(outputFile, endpointsFiles, config);
+swaggerAutogen(outputFile, endpointsFiles, doc);
